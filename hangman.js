@@ -48,13 +48,7 @@ class Hangman {
   }
 
   getStatus() {
-    let finished = true;
-    this.word.forEach(letter => {
-      if (this.guessedLetters.includes(letter)) {
-      } else {
-        finished = false;
-      }
-    });
+    const finished = this.word.every(letter => this.guessedLetters.includes(letter) || letter === ' ');
 
     if (this.remainingGuesses === 0) {
       this.status = 'failed';
