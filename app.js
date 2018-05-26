@@ -21,14 +21,13 @@ getPuzzle('4')
     console.log(err);
   });
 
-getCountry('AF').then(
-  country => {
-    console.log(country.name);
-  },
-  err => {
-    console.log(`Error: ${err}`);
-  }
-);
+getCountry('AF')
+  .then(country => {
+    console.log(country);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 /*
 fetch('http://puzzle.mead.io/puzzle', {})
   .then(response => {

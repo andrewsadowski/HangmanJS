@@ -28,6 +28,20 @@ const getPuzzle = wordCount =>
     request.send();
   });
 */
+
+const getCountry = countryCode => {
+  return fetch('http://restcountries.eu/rest/v2/all')
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error('Fetch fucked up');
+      }
+    })
+    .then(data => data.find(country => country.alpha2Code === countryCode))
+    .then(data => data.name);
+};
+/*
 const getCountry = countryCode =>
   new Promise((resolve, reject) => {
     const countryRequest = new XMLHttpRequest();
@@ -44,7 +58,7 @@ const getCountry = countryCode =>
     countryRequest.open('GET', 'http://restcountries.eu/rest/v2/all');
     countryRequest.send();
   });
-
+*/
 //callback
 
 // const getCountry = (countryCode, callback) => {
