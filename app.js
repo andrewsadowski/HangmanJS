@@ -22,13 +22,22 @@ getPuzzle('2').then(
   }
 );
 
-getCountry('AF', (error, country) => {
-  if (error) {
-    console.log(`Error: ${error}`);
-  } else {
+getCountry('AF').then(
+  country => {
     console.log(country.name);
+  },
+  err => {
+    console.log(`Error: ${err}`);
   }
-});
+);
+
+// getCountry('AF', (error, country) => {
+//   if (error) {
+//     console.log(`Error: ${error}`);
+//   } else {
+//     console.log(country.name);
+//   }
+// });
 
 // const request = new XMLHttpRequest();
 
