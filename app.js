@@ -13,11 +13,20 @@ window.addEventListener('keypress', e => {
   guessesElement.textContent = game1.statusMessage;
 });
 
-getPuzzle((error, puzzle) => {
+getPuzzle('2').then(
+  puzzle => {
+    console.log(puzzle);
+  },
+  err => {
+    console.log(`Error: ${err}`);
+  }
+);
+
+getCountry('AF', (error, country) => {
   if (error) {
     console.log(`Error: ${error}`);
   } else {
-    console.log(puzzle);
+    console.log(country.name);
   }
 });
 
