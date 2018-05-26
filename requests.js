@@ -1,33 +1,13 @@
-const getPuzzle = wordCount => {
-  return fetch(`http://puzzle.mead.io/puzzle?wordCount=${wordCount}`)
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error('Unable to fetch');
-      }
-    })
-    .then(data => {
-      return data.puzzle;
-    });
-};
-/*
-const getPuzzle = wordCount =>
-  new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest();
+const getPuzzle = async wordCount => {
+  const response = await fetch(`http://puzzle.mead.io/puzzle?wordCount=${wordCount}`);
 
-    request.addEventListener('readystatechange', e => {
-      if (e.target.readyState === 4 && e.target.status === 200) {
-        const data = JSON.parse(e.target.responseText);
-        resolve(data.puzzle);
-      } else if (e.target.readyState === 4) {
-        reject('An error has occured');
-      }
-    });
-    request.open('GET', 'http://puzzle.mead.io/puzzle?wordCount=3');
-    request.send();
-  });
-*/
+  if (response.status === 200) {
+    const data = await response.json();
+    return data.puzzle;
+  } else {
+    throw new Error('Unable to fetch puzzle');
+  }
+};
 
 const getCountry = countryCode => {
   return fetch('http://restcountries.eu/rest/v2/all')
@@ -41,24 +21,7 @@ const getCountry = countryCode => {
     .then(data => data.find(country => country.alpha2Code === countryCode))
     .then(data => data.name);
 };
-/*
-const getCountry = countryCode =>
-  new Promise((resolve, reject) => {
-    const countryRequest = new XMLHttpRequest();
 
-    countryRequest.addEventListener('readystatechange', e => {
-      if (e.target.readyState === 4 && e.target.status === 200) {
-        const data = JSON.parse(e.target.responseText);
-        const countryFinder = data.find(country => country.alpha2Code === countryCode);
-        resolve(countryFinder);
-      } else if (e.target.readyState === 4) {
-        reject('An error has occured');
-      }
-    });
-    countryRequest.open('GET', 'http://restcountries.eu/rest/v2/all');
-    countryRequest.send();
-  });
-*/
 //callback
 
 // const getCountry = (countryCode, callback) => {
@@ -76,3 +39,23 @@ const getCountry = countryCode =>
 //   countryRequest.open('GET', 'http://restcountries.eu/rest/v2/all');
 //   countryRequest.send();
 // };
+
+const getLocation = () => {
+  return fetch(`http://ipinfo.io/json?token=df986dbbca6e6f`).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Fetch failed');
+    }
+  });
+};
+getLocation()
+  .then(data => {
+    return getCountry(data.country);
+  })
+  .then(country => {
+    console.log(country);
+  })
+  .catch(err => {
+    console.log(err);
+  });
