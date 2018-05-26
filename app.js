@@ -13,14 +13,13 @@ window.addEventListener('keypress', e => {
   guessesElement.textContent = game1.statusMessage;
 });
 
-getPuzzle('2').then(
-  puzzle => {
+getPuzzle('4')
+  .then(puzzle => {
     console.log(puzzle);
-  },
-  err => {
-    console.log(`Error: ${err}`);
-  }
-);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 getCountry('AF').then(
   country => {
@@ -30,6 +29,22 @@ getCountry('AF').then(
     console.log(`Error: ${err}`);
   }
 );
+/*
+fetch('http://puzzle.mead.io/puzzle', {})
+  .then(response => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Unable to fetch');
+    }
+  })
+  .then(data => {
+    console.log(`${data.puzzle} from FETCH`);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+  */
 
 // getCountry('AF', (error, country) => {
 //   if (error) {
