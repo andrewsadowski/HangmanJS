@@ -1,33 +1,47 @@
 const guessesElement = document.querySelector('#guesses');
 const puzzleElement = document.querySelector('#puzzle');
-const game1 = new Hangman('cat ear', 2);
+let game1;
 
-puzzleElement.textContent = game1.puzzle;
-guessesElement.textContent = game1.statusMessage;
-console.log(game1.status);
+// puzzleElement.textContent = game1.puzzle;
+// guessesElement.textContent = game1.statusMessage;
+// console.log(game1.status);
 
 window.addEventListener('keypress', e => {
   const guess = String.fromCharCode(e.charCode);
   game1.makeGuess(guess);
-  puzzleElement.textContent = game1.puzzle;
-  guessesElement.textContent = game1.statusMessage;
+  render();
 });
 
-getPuzzle('4')
-  .then(puzzle => {
-    console.log(puzzle);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+const startGame = async () => {
+  const puzzle = await getPuzzle('2');
+  game1 = new Hangman(puzzle, 5);
+  render();
+};
 
-getCountry('AF')
-  .then(country => {
-    console.log(country.name);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+const render = () => {
+  puzzleElement.textContent = game1.puzzle;
+  guessesElement.textContent = game1.statusMessage;
+};
+
+document.querySelector('#reset').addEventListener('click', startGame);
+
+startGame();
+
+// getPuzzle('4')
+//   .then(puzzle => {
+//     console.log(puzzle);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
+
+// getCountry('AF')
+//   .then(country => {
+//     console.log(country.name);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
 /*
 fetch('http://puzzle.mead.io/puzzle', {})
   .then(response => {
