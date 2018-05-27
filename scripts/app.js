@@ -19,8 +19,13 @@ const startGame = async () => {
 };
 
 const render = () => {
-  puzzleElement.textContent = game1.puzzle;
+  puzzleElement.innerHTML = '';
   guessesElement.textContent = game1.statusMessage;
+  game1.puzzle.split('').forEach(letter => {
+    const letterElement = document.createElement('span');
+    letterElement.textContent = letter;
+    puzzleElement.appendChild(letterElement);
+  });
 };
 
 document.querySelector('#reset').addEventListener('click', startGame);
