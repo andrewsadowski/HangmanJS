@@ -23,7 +23,7 @@ getPuzzle('4')
 
 getCountry('AF')
   .then(country => {
-    console.log(country);
+    console.log(country.name);
   })
   .catch(err => {
     console.log(err);

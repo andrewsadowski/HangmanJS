@@ -9,18 +9,42 @@ const getPuzzle = async wordCount => {
   }
 };
 
-const getCountry = countryCode => {
-  return fetch('http://restcountries.eu/rest/v2/all')
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error('Fetch fucked up');
-      }
-    })
-    .then(data => data.find(country => country.alpha2Code === countryCode))
-    .then(data => data.name);
+const getCountry = async countryCode => {
+  const response = await fetch('http://restcountries.eu/rest/v2/all');
+
+  if (response.status === 200) {
+    const data = await response.json();
+    const countryObj = await data.find(country => country.alpha2Code === countryCode);
+    return await countryObj;
+  } else {
+    throw new Error('Fetch fucked up');
+  }
 };
+
+const getLocation = async () => {
+  const response = await fetch(`http://ipinfo.io/json?token=df986dbbca6e6f`);
+
+  if (response.status === 200) {
+    const location = await response.json();
+    return location;
+  } else {
+    throw new Error('Fetch failed');
+  }
+};
+
+const getCurrentCountry = async () => {
+  const location = await getLocation();
+  const countryInfo = await getCountry(location.country);
+  return countryInfo;
+};
+
+// getCurrentCountry()
+//   .then(country => {
+//     console.log(country.name);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
 
 //callback
 
@@ -40,22 +64,13 @@ const getCountry = countryCode => {
 //   countryRequest.send();
 // };
 
-const getLocation = () => {
-  return fetch(`http://ipinfo.io/json?token=df986dbbca6e6f`).then(response => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Fetch failed');
-    }
-  });
-};
-getLocation()
-  .then(data => {
-    return getCountry(data.country);
-  })
-  .then(country => {
-    console.log(country);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+// getLocation()
+//   .then(data => {
+//     return getCountry(data.country);
+//   })
+//   .then(country => {
+//     console.log(country);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
